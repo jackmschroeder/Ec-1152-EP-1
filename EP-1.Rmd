@@ -1,0 +1,144 @@
+---
+title: 'Empirical Project #1'
+author: "Jack Schroeder"
+date: "2/19/2019"
+output:
+  pdf_document: default
+  html_document: default
+header-includes: \usepackage{setspace}\doublespacing
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+options(scipen=999)
+
+library(tidyverse)
+
+oppatlas <- read_csv("atlas_ranks.csv") %>% 
+  filter(!is.na(kfr_pooled_p25))
+
+state <- oppatlas %>% 
+  filter(state == 34)
+
+county <- state %>% 
+  filter(county == 039)
+
+tract <- county %>% 
+  filter(tract == 037700)
+
+# Summit tract 34039037700.
+
+```
+
+```{r question 1, echo=FALSE}
+q1graph1 <- "summit-opp-atlas.png"
+
+```
+
+```{r question 2, echo=FALSE}
+
+```
+
+
+```{r question 3, echo=FALSE}
+q3.1 <- mean(oppatlas$kfr_pooled_p25)
+q3.1 <- round(q3.1, digits=0)
+q3.2 <- mean(state$kfr_pooled_p25)
+q3.2 <- round(q3.2, digits=0)
+q3.3 <- mean(tract$kfr_pooled_p25)
+q3.3 <- round(q3.3, digits=0)
+q3.4 <- mean(county$kfr_pooled_p25)
+q3.4 <- round(q3.4, digits=0)
+```
+Hello `r q3.4`.
+```{r question 4, echo=FALSE}
+q4.1 <- sd(oppatlas$kfr_pooled_p25)
+q4.1 <- round(q3.1, digits=0)
+q4.2 <- sd(state$kfr_pooled_p25)
+q4.2 <- round(q3.2, digits=0)
+q4.3 <- sd(county$kfr_pooled_p25)
+q4.3 <- round(q3.3, digits=0)
+```
+
+
+```{r question 5, echo=FALSE}
+q5.1 <- mean(oppatlas$kfr_pooled_p75)
+q5.1 <- round(q3.1, digits=0)
+q5.2 <- mean(state$kfr_pooled_p75)
+q5.2 <- round(q3.2, digits=0)
+q5.3 <- mean(tract$kfr_pooled_p75)
+q5.3 <- round(q3.3, digits=0)
+
+q5.4 <- sd(oppatlas$kfr_pooled_p75)
+q5.4 <- round(q3.1, digits=0)
+q5.5 <- sd(state$kfr_pooled_p75)
+q5.5 <- round(q3.2, digits=0)
+q5.6 <- sd(county$kfr_pooled_p75)
+q5.6 <- round(q3.3, digits=0)
+
+q5.7 <- mean(oppatlas$kfr_pooled_p100)
+q5.7 <- round(q3.1, digits=0)
+q5.8 <- mean(state$kfr_pooled_p100)
+q5.8 <- round(q3.2, digits=0)
+q5.9 <- mean(tract$kfr_pooled_p100)
+q5.9 <- round(q3.3, digits=0)
+
+q5.10 <- sd(oppatlas$kfr_pooled_p100)
+q5.10 <- round(q3.1, digits=0)
+q5.11 <- sd(state$kfr_pooled_p100)
+q5.11 <- round(q3.2, digits=0)
+q5.12 <- sd(county$kfr_pooled_p100)
+q5.12 <- round(q3.3, digits=0)
+```
+
+```{r question 6, echo=FALSE}
+q6graph <- ggplot(county, aes(ranks_pooled_p25*100, ranks_pooled_p75*100)) +
+  geom_point(alpha=.25) +
+  xlab("Children in 25th Percentile") +
+  ylab("Children in 75th Percentile") +
+  ggtitle("Upward Mobility in Union County, NJ", subtitle = "Percentile Rank Data from Opportunity Atlas") +
+  theme_minimal() +
+  geom_smooth(method="lm")
+```
+
+
+```{r question 7, echo=FALSE, warning=FALSE}
+q7graph <- q6graph + 
+  geom_smooth(aes(ranks_asian_p25*100, ranks_asian_p75*100), method="lm", color="red", se=FALSE) + 
+  geom_smooth(aes(ranks_black_p25*100, ranks_black_p75*100), method="lm", color="brown", se=FALSE) + 
+  geom_smooth(aes(ranks_hisp_p25*100, ranks_hisp_p75*100), method="lm", color="dark green", se=FALSE) +
+  geom_smooth(aes(ranks_white_p25*100, ranks_white_p75*100), method="lm", color="orange", se=FALSE) +
+  ggtitle("Upward Mobility in Union County, NJ (By Race)") +
+  scale_x_continuous(limits = c(30, 65)) + labs(caption="Blue line: County Average
+                                                Orange line: White Children
+                                                Red line: Asian Children
+                                                Green line: Hispanic Children
+                                                Brown line: Black Children")
+
+```
+The graph itself is stunning:
+fdsjaklfdsa
+fdsajklfdsa
+fdsajklfdjsaf
+dsaj fkdsalfjksa
+f djsaklf dsa
+```{r show graph, echo=FALSE, warning=FALSE}
+q7graph
+```
+
+There are many things here.
+That are worth considering.
+```{r question 8, echo=FALSE}
+
+```
+
+
+```{r question 9, echo=FALSE}
+
+```
+
+```{r question 10, echo=FALSE}
+
+```
+
