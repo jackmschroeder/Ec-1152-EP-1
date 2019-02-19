@@ -6,10 +6,17 @@ output:
   pdf_document: default
   html_document: default
 header-includes: \usepackage{setspace}\doublespacing
+indent: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+# Please submit your Empirical Project on Canvas. Your submission should include three files:
+# 1. A 4-6 page narrative as a word or pdf document (double spaced and including references,
+# graphs, maps, and tables)
+# 2. A do-file with your STATA code or an .R script file with your R code
+# 3. A log file of your STATA or R output
 
 options(scipen=999)
 
@@ -32,16 +39,35 @@ tract <- county %>%
 ```
 
 ```{r question 1, echo=FALSE}
+
+# Start by looking up the city where you grew up on the Opportunity Atlas. Zoom in to the
+# Census tracts around your home.
+# Figure 1 in your narrative should be a map of the Census tracts in your hometown from the
+# Opportunity Atlas. Examples for Milwaukee, WI (where Professor Chetty grew up) and
+# Los Angeles, CA (discussed in Lecture 1) are shown on the next page. The text of your
+# narrative should describe what you see, and what data are being visualized.
+# Examine the patterns for a number of different groups (e.g., lowest income children, high
+# income children) and outcomes (e.g., earnings in adulthood, incarceration rates). Only
+# choose one or two of these to include in your narrative.
 q1graph1 <- "summit-opp-atlas.png"
 
 ```
 
 ```{r question 2, echo=FALSE}
-
+# What period do the data
+# you are analyzing come from? Are you concerned that the neighborhoods you are
+# studying may have changed for kids now growing up there? What evidence do Chetty et
+# al. (2018) provide suggesting that such changes are or are not important? What type of
+# data could you use to test whether your neighborhood has changed in recent years?
 ```
 
 
 ```{r question 3, echo=FALSE}
+# Now turn to the atlas.dta data set. How does average upward mobility, pooling races and
+# genders, for children with parents at the 25th percentile (kfr pooled_p25) in your
+# home Census tract compare to mean (population-weighted, using count_pooled)
+# upward mobility in your state and in the U.S. overall? Do kids where you grew up have
+# better or worse chances of climbing the income ladder than the average child in America?
 q3.1 <- mean(oppatlas$kfr_pooled_p25)
 q3.1 <- round(q3.1, digits=0)
 q3.2 <- mean(state$kfr_pooled_p25)
@@ -53,6 +79,9 @@ q3.4 <- round(q3.4, digits=0)
 ```
 Hello `r q3.4`.
 ```{r question 4, echo=FALSE}
+# What is the standard deviation of upward mobility (population-weighted) in your home
+# county? Is it larger or smaller than the standard deviation across tracts in your state?
+# Across tracts in the country? What do you learn from these comparisons?
 q4.1 <- sd(oppatlas$kfr_pooled_p25)
 q4.1 <- round(q3.1, digits=0)
 q4.2 <- sd(state$kfr_pooled_p25)
@@ -63,6 +92,8 @@ q4.3 <- round(q3.3, digits=0)
 
 
 ```{r question 5, echo=FALSE}
+# Now let’s turn to downward mobility: repeat questions (3) and (4) looking at children
+# who start with parents at the 75th and 100th percentiles. How do the patterns differ?
 q5.1 <- mean(oppatlas$kfr_pooled_p75)
 q5.1 <- round(q3.1, digits=0)
 q5.2 <- mean(state$kfr_pooled_p75)
@@ -93,6 +124,10 @@ q5.12 <- round(q3.3, digits=0)
 ```
 
 ```{r question 6, echo=FALSE}
+# Using a linear regression, estimate the relationship between outcomes of children at the
+# 25th and 75th percentile for the Census tracts in your home county. Generate a scatter
+# plot to visualize this regression. Do areas where children from low-income families do
+# well generally have better outcomes for those from high-income families, too?
 q6graph <- ggplot(county, aes(ranks_pooled_p25*100, ranks_pooled_p75*100)) +
   geom_point(alpha=.25) +
   xlab("Children in 25th Percentile") +
@@ -104,6 +139,9 @@ q6graph <- ggplot(county, aes(ranks_pooled_p25*100, ranks_pooled_p75*100)) +
 
 
 ```{r question 7, echo=FALSE, warning=FALSE}
+# Next, examine whether the patterns you have looked at above are similar by race. If there
+# is not enough racial heterogeneity in the area of interest (i.e., data is missing for most
+# racial groups), then choose a different area to examine.
 q7graph <- q6graph + 
   geom_smooth(aes(ranks_asian_p25*100, ranks_asian_p75*100), method="lm", color="red", se=FALSE) + 
   geom_smooth(aes(ranks_black_p25*100, ranks_black_p75*100), method="lm", color="brown", se=FALSE) + 
@@ -118,27 +156,47 @@ q7graph <- q6graph +
 
 ```
 The graph itself is stunning:
-fdsjaklfdsa
-fdsajklfdsa
-fdsajklfdjsaf
-dsaj fkdsalfjksa
-f djsaklf dsa
+ 
 ```{r show graph, echo=FALSE, warning=FALSE}
 q7graph
 ```
 
-There are many things here.
-That are worth considering.
-```{r question 8, echo=FALSE}
+There are many things here.  
 
+That are worth considering.  
+```{r question 8, echo=FALSE}
+# Using the Census tracts in your home county, can you identify any covariates which help
+# explain some of the patterns you have identified above? Some examples of covariates
+# you might examine include housing prices, income inequality, fraction of children with
+# single parents, job density, etc. For 2 or 3 of these, report estimated correlation
+# coefficients along with their 95% confidence intervals.
+cor(county$kfr_pooled_p25, county$foreign_share2010)
+cor(county$kfr_pooled_p25, county$poor_share1990)
+cor(county$kfr_pooled_p25, county$singleparent_share1990)
+cor(county$kfr_pooled_p25, county$singleparent_share2000)
+cor(county$kfr_pooled_p25, county$frac_coll_plus2010)
 ```
 
 
 ```{r question 9, echo=FALSE}
-
+# Open question: formulate a hypothesis for why you see the variation in upward mobility
+# for children who grew up in the Census tracts near your home and provide correlational
+# evidence testing that hypothesis.
+# For this question, many covariates have been provided to you in the atlas.dta file, which
+# are described under the “Characteristics of Census tracts” header in Table 1.
+# You are welcome to use outside data that are not included in atlas.dta, but this is not
+# required. Diane Sredl has created a research guide for our class that contains links to
+# other data sources. You may wish to read this tutorial on how to add variables to a data
+# set in Stata.
 ```
 
 ```{r question 10, echo=FALSE}
-
+# Putting together all the analyses you did above, what have you learned about the
+# determinants of economic opportunity where you grew up? Identify one or two key
+# lessons or takeaways that you might discuss with a policymaker or journalist if asked
+# about your hometown. Mention any important caveats to your conclusions; for example,
+# can we conclude that the variable you identified as a key predictor in the question above
+# has a causal effect (i.e., changing it would change upward mobility) based on that
+# analysis? Why or why not?
 ```
 
