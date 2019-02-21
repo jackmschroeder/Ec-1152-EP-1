@@ -280,12 +280,6 @@ q7graph
 # you might examine include housing prices, income inequality, fraction of children with
 # single parents, job density, etc. For 2 or 3 of these, report estimated correlation
 # coefficients along with their 95% confidence intervals.
-cor(county$foreign_share2010, county$kfr_pooled_p25)
-cor(county$popdensity2000, county$kfr_pooled_p25)
-cor(county$singleparent_share2000, county$kfr_pooled_p25)
-# single parent share on the x axis - is a control, kfr is the y
-# maybe take binscatter here?
-cor(county$frac_coll_plus2010, county$kfr_pooled_p25)
 
 # install prerequisite packages
 #install.packages(c("sandwich", "foreign", "lmtest","devtools"))
@@ -312,6 +306,8 @@ model_1_CI_lb <- covariate_model_1$coefficients - tval1 * se1
 # display CIs for white (robust) ses
 cbind(model_1_CI_lb, model_1_CI_ub)
 
+cor(county$singleparent_share2000, county$ranks_pooled_p25)
+
 # run ols
 covariate_model_2 <- lm(ranks_pooled_p25 ~ singleparent_share2000, data= county)
 summary(covariate_model_2)
@@ -329,7 +325,7 @@ model_2_CI_lb <- covariate_model_2$coefficients - tval2 * se2
 cbind(model_2_CI_lb, model_2_CI_ub)
 
 # run ols
-covariate_model_3 <- lm(ranks_pooled_p25 ~ frac_coll_plus2010, data= county)
+covariate_model_3 <- lm(ranks_pooled_p25 ~ singleparent_share2010, data= county)
 summary(covariate_model_3)
 
 # grab white (robust) ses from vcv matrix
@@ -343,16 +339,8 @@ model_3_CI_lb <- covariate_model_3$coefficients - tval3 * se3
 
 # display CIs for white (robust) ses
 cbind(model_3_CI_lb, model_3_CI_ub)
-```
------
-Table 2: 95% Confidence Intervals for Correlation Coefficients of Covariates
------
 
-| Covariate | Lower Bound | Upper Bound |
-|------------------------------------|:----------:|:----------:|
-| Share of Population Born Outside the U.S. in 2010 | 0.498 | 0.562 |
-| Share of Single-Headed Households with Children in 2000 | -0.485 | -0.354 |
-| Fraction of Residents with a High-School Degree or More in 2010 | 0.165 | 0.283 |
+```
 
 ```{r question 9, echo=FALSE}
 # Open question: formulate a hypothesis for why you see the variation in upward mobility
@@ -364,7 +352,35 @@ Table 2: 95% Confidence Intervals for Correlation Coefficients of Covariates
 # required. Diane Sredl has created a research guide for our class that contains links to
 # other data sources. You may wish to read this tutorial on how to add variables to a data
 # set in Stata.
+
+# This code allowed me to figure out the average tract's foreign-born
+# population share across the country. The following code chunk did
+# the same for Union County.
+
+nationforeign <- oppatlas %>% 
+  filter(!is.na(foreign_share2010))
+nationforeign <- mean(nationforeign$foreign_share2010)
+nationforeign <- round(nationforeign, digits=2)
+
+unionforeign <- mean(county$foreign_share2010)
+unionforeign <- round(unionforeign, digits=2)
 ```
+
+Table 2 presents three covariates of ranked income among children born into the 25th percentile. I chose three covariates to analyze: `foreign_share2010`, `singleparent_share2000`, and `singleparent_share2010`.
+
+-----
+Table 2: 95% Confidence Intervals for Correlation Coefficients of Covariates
+-----
+
+| Covariate | Lower Bound | *Coefficient* | Upper Bound |
+|------------------------------------|:----------:|:----------:|:----------:|
+| Share of Population Born Outside the U.S. in 2010 | -0.304 | *-0.224* | -0.143 |
+| Share of Single-Headed Households with Children in 2000 | -0.485 | *-0.419* | -0.354 |
+| Share of Single-Headed Households with Children in 2010 | -0.303 | *-0.247* | -0.192 |
+
+First, I calculated the correlation between the foreign-born population share in each Union County tract and percentile rank of children born into the 25th percentile (the coefficient from `ranks_pooled_p25 ~ foreign_share2010`). There is a significant negative coefficient of -0.224 (95% confidence intervals are detailed in Table 2). Union County has a substantially higher foreign-born population share than the average Census tract (`r unionforeign` versus `r nationforeign` nationwide). The negative correlation suggests that poorer immigrants in Union County do not see much mobility. Indeed, when looking at percentile ranks, it appears that their children are in many cases worse-off than their parents.
+
+
 
 ```{r question 10, echo=FALSE}
 # Putting together all the analyses you did above, what have you learned about the
