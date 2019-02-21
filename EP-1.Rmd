@@ -55,7 +55,8 @@ state <- oppatlas %>%
 county <- state %>% 
   filter(county == 039)
 
-# My hometown, Summit, can be found as a subset of Union County.
+# My hometown, Summit, can be found as a subset of Union County. 
+# Summit's tracts are 37700, 37800, 37900, and 38000.
 
 town <- county %>% 
   filter(tract == 037700 | tract == 037800 | 
@@ -95,15 +96,6 @@ q1graph1 <- readPNG("Files/opp-income-all.png")
 q1graph2 <- readPNG("Files/opp-income-low.png")
 q1graph3 <- readPNG("Files/opp-incarc-all.png")
 q1graph4 <- readPNG("Files/opp-incarc-low.png")
-```
-
-```{r summit ranks, echo=FALSE, include=FALSE}
-# The following code allowed me to look at Summit's tracts in relation to the rest of
-# Union County. Summit's tracts are 37700, 37800, 37900, and 38000.
-
-summit_ranks <- county %>% 
-  select(tract, kfr_pooled_p25) %>% 
-  arrange(desc(kfr_pooled_p25))
 ```
 
 In many outcomes, Summit is ahead of the rest of Union County. Of the 108 Census tracts within the county, Summit's tracts rank 2nd, 31st, 45th, and 53rd in the pooled household incomes of low-income children (`kfr_pooled_p25`). When displayed cartographically, Summit's outcomes for low-income children appear better than those of many other towns in the county (which are located to the southeast of Summit).
@@ -240,6 +232,9 @@ Table 1: Outcome Matrix with Means and Standard Deviations
 # 25th and 75th percentile for the Census tracts in your home county. Generate a scatter
 # plot to visualize this regression. Do areas where children from low-income families do
 # well generally have better outcomes for those from high-income families, too?
+
+q6regression <- lm(kfr_pooled_p25 ~ kfr_pooled_p75, data=county)
+q6regression
 q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
   geom_point(alpha=.25) +
   xlab("Children in 75th Percentile") +
@@ -350,8 +345,14 @@ model_3_CI_lb <- covariate_model_3$coefficients - tval3 * se3
 cbind(model_3_CI_lb, model_3_CI_ub)
 ```
 -----
-Table 2: Covariates
+Table 2: 95% Confidence Intervals for Correlation Coefficients of Covariates
 -----
+
+| Covariate | Lower Bound | Upper Bound |
+|------------------------------------|:----------:|:----------:|
+| Share of Population Born Outside the U.S. in 2010 | 0.498 | 0.562 |
+| Share of Single-Headed Households with Children in 2000 | -0.485 | -0.354 |
+| Fraction of Residents with a High-School Degree or More in 2010 | 0.165 | 0.283 |
 
 ```{r question 9, echo=FALSE}
 # Open question: formulate a hypothesis for why you see the variation in upward mobility
