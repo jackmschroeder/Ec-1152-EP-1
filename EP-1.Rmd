@@ -20,7 +20,6 @@ Due 21 February 2019
 Empirical Project 1
 \end{center}
 
-The Opportunity Atlas is pretty cool. How cool, you may ask? The coolest. It's not really worth going into (the history of coolness itself is interesting), but the great thing about the Chicago thing is that they target other things for representation.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -41,7 +40,7 @@ library(tidyverse)
 # values in each of the kfr pooled values. These NA values were not
 # in New Jersey, so it should not impact the deeper analysis.
 
-oppatlas <- read_csv("atlas_ranks.csv") %>% 
+oppatlas <- read_csv("Files/atlas_ranks.csv") %>% 
   filter(!is.na(kfr_pooled_p25)) %>% 
   filter(!is.na(kfr_pooled_p75)) %>% 
   filter(!is.na(kfr_pooled_p100))
@@ -56,7 +55,13 @@ state <- oppatlas %>%
 county <- state %>% 
   filter(county == 039)
 
-# My tract (in Summit, NJ) is found as a subset of county.
+# My hometown, Summit, can be found as a subset of Union County.
+
+town <- county %>% 
+  filter(tract == 037700 | tract == 037800 | 
+           tract == 037900 | tract == 038000)
+
+# Finally, I filter county to find my Census tract.
 
 tract <- county %>% 
   filter(tract == 037700)
@@ -67,7 +72,7 @@ tract <- county %>%
 options(scipen=999)
 
 ```
-
+My hometown, Summit, is located in Union County, New Jersey. It has a reputation of being a fairly well-off town with strong links to Wall Street, as 20% of its residents  work in finance and real estate (Patterson 2008). Its train station is a part of NJ Transit's Midtown Direct service, which operates express trains to Penn Station (Carter 2018). The Regional Plan Association found in 2010 that this service boosted property values in Summit by $23,000 for houses within walking distance of the train station (Carter 2018). The town has a top-25 public school system in the state and is located close to many secular/religious private schools (U.S. News 2018). Summit's downtown suffered a downtown in the recession (Patterson 2008), but as of early 2019, its retail vacancy rate had decreased to 1.3% (Radest 2019). On the surface, Summit is resurgent and thriving.
 ```{r question 1, echo=FALSE}
 
 # Start by looking up the city where you grew up on the Opportunity Atlas. Zoom in to the
@@ -86,22 +91,53 @@ library(png)
 
 # From there I just need to read in each png file and assign it.
 
-q1graph1 <- readPNG("opp-income-all.png")
-q1graph2 <- readPNG("opp-income-low.png")
-q1graph3 <- readPNG("opp-incarc-all.png")
-q1graph4 <- readPNG("opp-incarc-low.png")
+q1graph1 <- readPNG("Files/opp-income-all.png")
+q1graph2 <- readPNG("Files/opp-income-low.png")
+q1graph3 <- readPNG("Files/opp-incarc-all.png")
+q1graph4 <- readPNG("Files/opp-incarc-low.png")
+```
+
+```{r summit ranks, echo=FALSE, include=FALSE}
+# The following code allowed me to look at Summit's tracts in relation to the rest of
+# Union County. Summit's tracts are 37700, 37800, 37900, and 38000.
+
+summit_ranks <- county %>% 
+  select(tract, kfr_pooled_p25) %>% 
+  arrange(desc(kfr_pooled_p25))
+```
+
+In many outcomes, Summit is ahead of the rest of Union County. Of the 108 Census tracts within the county, Summit's tracts rank 2nd, 31st, 45th, and 53rd in the pooled household incomes of low-income children (`kfr_pooled_p25`). When displayed cartographically, Summit's outcomes for low-income children appear better than those of many other towns in the county (which are located to the southeast of Summit).
+
+```{r figure 1, echo=FALSE, fig.align="center"}
 
 # This if statement allows me to rasterize the image and display it
-# in markdown.
+# in markdown. The fig.align code centers the photo.
 
 if (exists("rasterImage")) {
 plot.new()
-rasterImage(q1graph1, 0,0,1,1)
+rasterImage(q1graph2, 0,0,1,1)
 }
+```
+-----
+Figure 1: Household Income among Low-Income Children in North Jersey
+------
 
+When looked at through another metric, such as incarceration rates among low-income children, Summit still appears ahead of the pack. Within Union County, Municipalities like Cranford and Elizabeth have considerably worse outcomes than Summit. Stretching outward, the area around Newark, while located outside Union County, has strikingly worse outcomes in both household income and incarceration rates for low-income children.
 
+```{r figure 2, echo=FALSE, fig.align="center"}
+
+# This if statement allows me to rasterize the image and display it
+# in markdown. The fig.align code centers the photo.
+
+if (exists("rasterImage")) {
+plot.new()
+rasterImage(q1graph4, 0,0,1,1)
+}
 ```
 
+-----
+Figure 2: Incarceration Rates among Low-Income Children in North Jersey
+------
 ```{r question 2, echo=FALSE}
 # What period do the data
 # you are analyzing come from? Are you concerned that the neighborhoods you are
@@ -109,9 +145,8 @@ rasterImage(q1graph1, 0,0,1,1)
 # al. (2018) provide suggesting that such changes are or are not important? What type of
 # data could you use to test whether your neighborhood has changed in recent years?
 ```
------
-J J J
-------
+
+The Opportunity Atlas data looks at children born between 1978 and 1983 and provides insights on their outcomes through adulthood. Using this data to look at Summit's outcomes may be misleading, since Summit itself has changed since the 1980s. After a population boom in the 1950s, the population began to precipitously decline in the 1970s. This decline continued until the late 1990s, but the city's population has yet to reach its high of 23,677 in 1960 (Census Data). Many in Summit believe that the city's population recovery was accompanied by fundamental changes in the town's identity, completing a transition into an upper-class Wall Street exclave in Union County. <ARE THESE CHANGES IMPORTANT> <WHAT DATA TO TEST WHETHER NEIGHBORHOOD HAS CHANGED>
 
 ```{r question 3, echo=FALSE}
 # Now turn to the atlas.dta data set. How does average upward mobility, pooling races and
@@ -128,7 +163,7 @@ q3.3 <- round(q3.3, digits=0)
 q3.4 <- mean(county$kfr_pooled_p25)
 q3.4 <- round(q3.4, digits=0)
 ```
-Hello `r q3.4`.
+
 ```{r question 4, echo=FALSE}
 # What is the standard deviation of upward mobility (population-weighted) in your home
 # county? Is it larger or smaller than the standard deviation across tracts in your state?
@@ -140,7 +175,9 @@ q4.2 <- round(q4.2, digits=0)
 q4.3 <- sd(county$kfr_pooled_p25)
 q4.3 <- round(q4.3, digits=0)
 ```
-
+-----
+Table 1: Outcomes for Low-Income Children (Questions 3 and 4)
+-----
 
 ```{r question 5, echo=FALSE}
 # Now let’s turn to downward mobility: repeat questions (3) and (4) looking at children
@@ -173,7 +210,9 @@ q5.11 <- round(q5.11, digits=0)
 q5.12 <- sd(county$kfr_pooled_p100)
 q5.12 <- round(q5.12, digits=0)
 ```
-
+-----
+Table 2: Outcomes for Higher-Income Children (Question 5)
+-----
 ```{r question 6, echo=FALSE}
 # Using a linear regression, estimate the relationship between outcomes of children at the
 # 25th and 75th percentile for the Census tracts in your home county. Generate a scatter
@@ -183,9 +222,14 @@ q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
   geom_point(alpha=.25) +
   xlab("Children in 75th Percentile") +
   ylab("Children in 25th Percentile") +
-  ggtitle("Upward Mobility in Union County, NJ", subtitle = "Percentile Rank Data from Opportunity Atlas") +
+  ggtitle("Figure 3: Upward Mobility in Union County, NJ", subtitle = "Percentile Rank Data from Opportunity Atlas") +
   theme_minimal() +
   geom_smooth(method="lm")
+```
+
+
+```{r figure 3, echo=FALSE, warning=FALSE}
+q6graph
 ```
 
 
@@ -199,16 +243,16 @@ q7graph <- q6graph +
   geom_smooth(aes(ranks_black_p75*100, ranks_black_p25*100), method="lm", color="brown", se=FALSE) + 
   geom_smooth(aes(ranks_hisp_p75*100, ranks_hisp_p25*100), method="lm", color="dark green", se=FALSE) +
   geom_smooth(aes(ranks_white_p75*100, ranks_white_p25*100), method="lm", color="orange", se=FALSE) +
-  ggtitle("Upward Mobility in Union County, NJ (By Race)") +
+  ggtitle("Figure 4: Upward Mobility in Union County, NJ (By Race)") +
   scale_x_continuous(limits = c(35, 75)) + labs(caption="Blue line: County Average
-                                                Orange line: White Children
                                                 Red line: Asian Children
+                                                Orange line: White Children
                                                 Green line: Hispanic Children
                                                 Brown line: Black Children")
 
 ```
 
-```{r show graph, echo=FALSE, warning=FALSE}
+```{r figure 4, echo=FALSE, warning=FALSE}
 q7graph
 ```
 
@@ -283,7 +327,9 @@ model_3_CI_lb <- covariate_model_3$coefficients - tval3 * se3
 # display CIs for white (robust) ses
 cbind(model_3_CI_lb, model_3_CI_ub)
 ```
-
+-----
+Table 3: Covariates
+-----
 
 ```{r question 9, echo=FALSE}
 # Open question: formulate a hypothesis for why you see the variation in upward mobility
