@@ -108,8 +108,7 @@ Figure 2: Incarceration Rates among Low-Income Children in North Jersey
 
 ```{r figure 2, echo=FALSE, fig.align="center"}
 
-# This if statement allows me to rasterize the image and display it
-# in markdown. The fig.align code centers the photo.
+# I rasterize and show the second image in markdown with the following if statement.
 
 if (exists("rasterImage")) {
 plot.new()
@@ -156,6 +155,10 @@ Chetty et al. (2018)'s Opportunity Atlas data looks at children born between 197
 # upward mobility in your state and in the U.S. overall? Do kids where you grew up have
 # better or worse chances of climbing the income ladder than the average child in America?
 
+# I find weighted means for the nation, state, county, and home tract using wt.mean.
+# I then round the results to help construct the table below.
+# These averages look at children born in the 25th percentile.
+
 q3.1 <- wt.mean(oppatlas$kfr_pooled_p25, oppatlas$count_pooled)
 q3.1 <- round(q3.1, digits=0)
 q3.2 <- wt.mean(state$kfr_pooled_p25, state$count_pooled)
@@ -167,22 +170,31 @@ q3.4 <- round(q3.4, digits=0)
 ```
 
 ```{r question 4, echo=FALSE}
-# What is the standard deviation of upward mobility (population-weighted) in your home
-# county? Is it larger or smaller than the standard deviation across tracts in your state?
-# Across tracts in the country? What do you learn from these comparisons? These are mobility.
+
+# I then find standard deviations for nation, state, county, and home tract using wt.sd.
+# I also round these results for the table.
+# This is still only looking at children born in the 25th percentile.
+
 q4.1 <- wt.sd(oppatlas$kfr_pooled_p25, oppatlas$count_pooled)
 q4.1 <- round(q4.1, digits=0)
 q4.2 <- wt.sd(state$kfr_pooled_p25, state$count_pooled)
 q4.2 <- round(q4.2, digits=0)
 q4.3 <- wt.sd(county$kfr_pooled_p25, county$count_pooled)
 q4.3 <- round(q4.3, digits=0)
+
+# There is no standard deviation for my home tract, so I find the standard deviation
+# of my town to put in the table. This process is repeated below.
+
 q4.4 <- wt.sd(town$kfr_pooled_p25, town$count_pooled)
 q4.4 <- round(q4.4, digits=0)
 ```
 
 ```{r question 5, echo=FALSE}
-# Now let’s turn to downward mobility: repeat questions (3) and (4) looking at children
-# who start with parents at the 75th and 100th percentiles. How do the patterns differ?
+
+# I find means and standard deviations in household income for children born in the 75th
+# and 100th percentiles. I weigh these using wt.mean and wt.sd. They are then rounded
+# to help with the table below.
+
 q5.1 <- wt.mean(oppatlas$kfr_pooled_p75, oppatlas$count_pooled)
 q5.1 <- round(q5.1, digits=0)
 q5.2 <- wt.mean(state$kfr_pooled_p75, state$count_pooled)
@@ -241,7 +253,18 @@ Table 1: Outcome Matrix with Means and Standard Deviations
 # plot to visualize this regression. Do areas where children from low-income families do
 # well generally have better outcomes for those from high-income families, too?
 
+# This code runs a linear regression on child outcomes from the 25th and 75th percentiles.
+# The data looks at Union County.
+
 q6regression <- lm(kfr_pooled_p25 ~ kfr_pooled_p75, data=county)
+
+# The regression yields a line of:
+# kfr_pooled_p25 = 958.6194 (intercept) + 0.6876 * kfr_pooled_p75.
+
+# The chunk below creates a scatter plot of the result. I use ranks to help with
+# graph interpretation (I personally think it looks better). I multiply each rank
+# to avoid having to manually set the axes. I also make each point lighter to help
+# make the regression line (and its confidence) stand out more.
 
 q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
   geom_point(alpha=.25) +
@@ -250,10 +273,14 @@ q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
   ggtitle("Figure 3: Upward Mobility in Union County, NJ", subtitle = "Percentile Rank Data from Opportunity Atlas") +
   theme_minimal() +
   geom_smooth(method="lm")
+
 ```
 
 
 ```{r figure 3, echo=FALSE, warning=FALSE}
+
+# I call for the graph and show it as Figure 3.
+
 q6graph
 ```
 
@@ -262,6 +289,10 @@ q6graph
 # Next, examine whether the patterns you have looked at above are similar by race. If there
 # is not enough racial heterogeneity in the area of interest (i.e., data is missing for most
 # racial groups), then choose a different area to examine.
+
+# To show whether the patterns are similar by race, I use the original graph and add
+# geom_smooths by each race. I retitle the graph as Figure 4 and add a caption to 
+# explain each line.
 
 q7graph <- q6graph + 
   geom_smooth(aes(ranks_asian_p75*100, ranks_asian_p25*100), method="lm", color="red", se=FALSE) + 
@@ -278,6 +309,9 @@ q7graph <- q6graph +
 ```
 
 ```{r figure 4, echo=FALSE, warning=FALSE}
+
+# I call for the graph as Figure 4.
+
 q7graph
 ```
 
