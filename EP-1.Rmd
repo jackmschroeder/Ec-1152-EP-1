@@ -1,7 +1,4 @@
 ---
-title: 'Empirical Project #1'
-author: "Jack Schroeder"
-date: "2/19/2019"
 output:
   pdf_document: default
   html_document: default
@@ -9,6 +6,21 @@ header-includes: \usepackage{setspace}\doublespacing
 indent: true
 ---
 
+Jack Schroeder
+
+Ec 1152  
+
+Prof. Raj Chetty  
+
+TF: Mike Droste  
+
+Due 21 February 2019  
+
+\begin{center}
+Empirical Project 1
+\end{center}
+
+The Opportunity Atlas is pretty cool. How cool, you may ask? The coolest. It's not really worth going into (the history of coolness itself is interesting), but the great thing about the Chicago thing is that they target other things for representation.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -18,23 +30,41 @@ knitr::opts_chunk$set(echo = TRUE)
 # 2. A do-file with your STATA code or an .R script file with your R code
 # 3. A log file of your STATA or R output
 
-options(scipen=999)
+
+# The main library I work with is the tidyverse.
+# There are some other libraries I use (specifically when looking at covariates),
+# but those libraries are called when they are used.
 
 library(tidyverse)
 
+# The atlas_ranks csv file is read in as oppatlas. I filter out NA
+# values in each of the kfr pooled values. These NA values were not
+# in New Jersey, so it should not impact the deeper analysis.
+
 oppatlas <- read_csv("atlas_ranks.csv") %>% 
-  filter(!is.na(kfr_pooled_p25))
+  filter(!is.na(kfr_pooled_p25)) %>% 
+  filter(!is.na(kfr_pooled_p75)) %>% 
+  filter(!is.na(kfr_pooled_p100))
+
+# I create a state database by filtering oppatlas for New Jersey.
 
 state <- oppatlas %>% 
   filter(state == 34)
 
+# I also create a Union County database, saved as county.
+
 county <- state %>% 
   filter(county == 039)
+
+# My tract (in Summit, NJ) is found as a subset of county.
 
 tract <- county %>% 
   filter(tract == 037700)
 
-# Summit tract 34039037700.
+# One last thing in this setup panel. The following line turns off scientific notation,
+# which makes R show the actual number when displaying output.
+
+options(scipen=999)
 
 ```
 
@@ -49,7 +79,26 @@ tract <- county %>%
 # Examine the patterns for a number of different groups (e.g., lowest income children, high
 # income children) and outcomes (e.g., earnings in adulthood, incarceration rates). Only
 # choose one or two of these to include in your narrative.
-q1graph1 <- "summit-opp-atlas.png"
+
+# I need the png library to read in png files from the Opportunity Atlas.
+
+library(png)
+
+# From there I just need to read in each png file and assign it.
+
+q1graph1 <- readPNG("opp-income-all.png")
+q1graph2 <- readPNG("opp-income-low.png")
+q1graph3 <- readPNG("opp-incarc-all.png")
+q1graph4 <- readPNG("opp-incarc-low.png")
+
+# This if statement allows me to rasterize the image and display it
+# in markdown.
+
+if (exists("rasterImage")) {
+plot.new()
+rasterImage(q1graph1, 0,0,1,1)
+}
+
 
 ```
 
@@ -60,7 +109,9 @@ q1graph1 <- "summit-opp-atlas.png"
 # al. (2018) provide suggesting that such changes are or are not important? What type of
 # data could you use to test whether your neighborhood has changed in recent years?
 ```
-
+-----
+J J J
+------
 
 ```{r question 3, echo=FALSE}
 # Now turn to the atlas.dta data set. How does average upward mobility, pooling races and
@@ -81,13 +132,13 @@ Hello `r q3.4`.
 ```{r question 4, echo=FALSE}
 # What is the standard deviation of upward mobility (population-weighted) in your home
 # county? Is it larger or smaller than the standard deviation across tracts in your state?
-# Across tracts in the country? What do you learn from these comparisons?
+# Across tracts in the country? What do you learn from these comparisons? These are mobility.
 q4.1 <- sd(oppatlas$kfr_pooled_p25)
-q4.1 <- round(q3.1, digits=0)
+q4.1 <- round(q4.1, digits=0)
 q4.2 <- sd(state$kfr_pooled_p25)
-q4.2 <- round(q3.2, digits=0)
+q4.2 <- round(q4.2, digits=0)
 q4.3 <- sd(county$kfr_pooled_p25)
-q4.3 <- round(q3.3, digits=0)
+q4.3 <- round(q4.3, digits=0)
 ```
 
 
@@ -95,32 +146,32 @@ q4.3 <- round(q3.3, digits=0)
 # Now let’s turn to downward mobility: repeat questions (3) and (4) looking at children
 # who start with parents at the 75th and 100th percentiles. How do the patterns differ?
 q5.1 <- mean(oppatlas$kfr_pooled_p75)
-q5.1 <- round(q3.1, digits=0)
+q5.1 <- round(q5.1, digits=0)
 q5.2 <- mean(state$kfr_pooled_p75)
-q5.2 <- round(q3.2, digits=0)
+q5.2 <- round(q5.2, digits=0)
 q5.3 <- mean(tract$kfr_pooled_p75)
-q5.3 <- round(q3.3, digits=0)
+q5.3 <- round(q5.3, digits=0)
 
 q5.4 <- sd(oppatlas$kfr_pooled_p75)
-q5.4 <- round(q3.1, digits=0)
+q5.4 <- round(q5.4, digits=0)
 q5.5 <- sd(state$kfr_pooled_p75)
-q5.5 <- round(q3.2, digits=0)
+q5.5 <- round(q5.5, digits=0)
 q5.6 <- sd(county$kfr_pooled_p75)
-q5.6 <- round(q3.3, digits=0)
+q5.6 <- round(q5.6, digits=0)
 
 q5.7 <- mean(oppatlas$kfr_pooled_p100)
-q5.7 <- round(q3.1, digits=0)
+q5.7 <- round(q5.7, digits=0)
 q5.8 <- mean(state$kfr_pooled_p100)
-q5.8 <- round(q3.2, digits=0)
+q5.8 <- round(q5.8, digits=0)
 q5.9 <- mean(tract$kfr_pooled_p100)
-q5.9 <- round(q3.3, digits=0)
+q5.9 <- round(q5.9, digits=0)
 
 q5.10 <- sd(oppatlas$kfr_pooled_p100)
-q5.10 <- round(q3.1, digits=0)
+q5.10 <- round(q5.10, digits=0)
 q5.11 <- sd(state$kfr_pooled_p100)
-q5.11 <- round(q3.2, digits=0)
+q5.11 <- round(q5.11, digits=0)
 q5.12 <- sd(county$kfr_pooled_p100)
-q5.12 <- round(q3.3, digits=0)
+q5.12 <- round(q5.12, digits=0)
 ```
 
 ```{r question 6, echo=FALSE}
@@ -128,10 +179,10 @@ q5.12 <- round(q3.3, digits=0)
 # 25th and 75th percentile for the Census tracts in your home county. Generate a scatter
 # plot to visualize this regression. Do areas where children from low-income families do
 # well generally have better outcomes for those from high-income families, too?
-q6graph <- ggplot(county, aes(ranks_pooled_p25*100, ranks_pooled_p75*100)) +
+q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
   geom_point(alpha=.25) +
-  xlab("Children in 25th Percentile") +
-  ylab("Children in 75th Percentile") +
+  xlab("Children in 75th Percentile") +
+  ylab("Children in 25th Percentile") +
   ggtitle("Upward Mobility in Union County, NJ", subtitle = "Percentile Rank Data from Opportunity Atlas") +
   theme_minimal() +
   geom_smooth(method="lm")
@@ -142,39 +193,95 @@ q6graph <- ggplot(county, aes(ranks_pooled_p25*100, ranks_pooled_p75*100)) +
 # Next, examine whether the patterns you have looked at above are similar by race. If there
 # is not enough racial heterogeneity in the area of interest (i.e., data is missing for most
 # racial groups), then choose a different area to examine.
+
 q7graph <- q6graph + 
-  geom_smooth(aes(ranks_asian_p25*100, ranks_asian_p75*100), method="lm", color="red", se=FALSE) + 
-  geom_smooth(aes(ranks_black_p25*100, ranks_black_p75*100), method="lm", color="brown", se=FALSE) + 
-  geom_smooth(aes(ranks_hisp_p25*100, ranks_hisp_p75*100), method="lm", color="dark green", se=FALSE) +
-  geom_smooth(aes(ranks_white_p25*100, ranks_white_p75*100), method="lm", color="orange", se=FALSE) +
+  geom_smooth(aes(ranks_asian_p75*100, ranks_asian_p25*100), method="lm", color="red", se=FALSE) + 
+  geom_smooth(aes(ranks_black_p75*100, ranks_black_p25*100), method="lm", color="brown", se=FALSE) + 
+  geom_smooth(aes(ranks_hisp_p75*100, ranks_hisp_p25*100), method="lm", color="dark green", se=FALSE) +
+  geom_smooth(aes(ranks_white_p75*100, ranks_white_p25*100), method="lm", color="orange", se=FALSE) +
   ggtitle("Upward Mobility in Union County, NJ (By Race)") +
-  scale_x_continuous(limits = c(30, 65)) + labs(caption="Blue line: County Average
+  scale_x_continuous(limits = c(35, 75)) + labs(caption="Blue line: County Average
                                                 Orange line: White Children
                                                 Red line: Asian Children
                                                 Green line: Hispanic Children
                                                 Brown line: Black Children")
 
 ```
-The graph itself is stunning:
- 
+
 ```{r show graph, echo=FALSE, warning=FALSE}
 q7graph
 ```
 
-There are many things here.  
-
-That are worth considering.  
-```{r question 8, echo=FALSE}
+ 
+```{r question 8, echo=FALSE, include=FALSE}
 # Using the Census tracts in your home county, can you identify any covariates which help
 # explain some of the patterns you have identified above? Some examples of covariates
 # you might examine include housing prices, income inequality, fraction of children with
 # single parents, job density, etc. For 2 or 3 of these, report estimated correlation
 # coefficients along with their 95% confidence intervals.
-cor(county$kfr_pooled_p25, county$foreign_share2010)
-cor(county$kfr_pooled_p25, county$poor_share1990)
-cor(county$kfr_pooled_p25, county$singleparent_share1990)
-cor(county$kfr_pooled_p25, county$singleparent_share2000)
-cor(county$kfr_pooled_p25, county$frac_coll_plus2010)
+cor(county$foreign_share2010, county$kfr_pooled_p25)
+cor(county$popdensity2000, county$kfr_pooled_p25)
+cor(county$singleparent_share2000, county$kfr_pooled_p25)
+# single parent share on the x axis - is a control, kfr is the y
+# maybe take binscatter here?
+cor(county$frac_coll_plus2010, county$kfr_pooled_p25)
+
+# install prerequisite packages
+#install.packages(c("sandwich", "foreign", "lmtest","devtools"))
+#devtools::install_github("jjchern/sysuse")
+
+# library for robust (white) standard errors
+library(foreign)
+library(sandwich)
+library(lmtest)
+
+# run ols
+covariate_model_1 <- lm(ranks_pooled_p25 ~ foreign_share2010, data= county)
+summary(covariate_model_1)
+
+# grab white (robust) ses from vcv matrix
+se1 <- sqrt(diag(vcovHC(covariate_model_1, "HC1")))
+
+# construct CIs white (robust) ses
+alpha <- 0.05
+tval1 <- qt(p=1-alpha/2, df=covariate_model_1$df.residual)
+model_1_CI_ub <- covariate_model_1$coefficients + tval1 * se1
+model_1_CI_lb <- covariate_model_1$coefficients - tval1 * se1
+
+# display CIs for white (robust) ses
+cbind(model_1_CI_lb, model_1_CI_ub)
+
+# run ols
+covariate_model_2 <- lm(ranks_pooled_p25 ~ singleparent_share2000, data= county)
+summary(covariate_model_2)
+
+# grab white (robust) ses from vcv matrix
+se2 <- sqrt(diag(vcovHC(covariate_model_2, "HC1")))
+
+# construct CIs white (robust) ses
+alpha <- 0.05
+tval2 <- qt(p=1-alpha/2, df=covariate_model_2$df.residual)
+model_2_CI_ub <- covariate_model_2$coefficients + tval2 * se2
+model_2_CI_lb <- covariate_model_2$coefficients - tval2 * se2
+
+# display CIs for white (robust) ses
+cbind(model_2_CI_lb, model_2_CI_ub)
+
+# run ols
+covariate_model_3 <- lm(ranks_pooled_p25 ~ frac_coll_plus2010, data= county)
+summary(covariate_model_3)
+
+# grab white (robust) ses from vcv matrix
+se3 <- sqrt(diag(vcovHC(covariate_model_3, "HC1")))
+
+# construct CIs white (robust) ses
+alpha <- 0.05
+tval3 <- qt(p=1-alpha/2, df=covariate_model_3$df.residual)
+model_3_CI_ub <- covariate_model_3$coefficients + tval3 * se3
+model_3_CI_lb <- covariate_model_3$coefficients - tval3 * se3
+
+# display CIs for white (robust) ses
+cbind(model_3_CI_lb, model_3_CI_ub)
 ```
 
 
