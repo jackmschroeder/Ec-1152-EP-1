@@ -72,7 +72,7 @@ tract <- county %>%
 options(scipen=999)
 
 ```
-My hometown, Summit, is located in Union County, New Jersey. It has a reputation of being a fairly well-off town with strong links to Wall Street, as 20% of its residents  work in finance and real estate (Patterson 2008). Its train station is a part of NJ Transit's Midtown Direct service, which operates express trains to Penn Station (Carter 2018). The Regional Plan Association found in 2010 that this service boosted property values in Summit by $23,000 for houses within walking distance of the train station (Carter 2018). The town has a top-25 public school system in the state and is located close to many secular/religious private schools (U.S. News 2018). Summit's downtown suffered a downtown in the recession (Patterson 2008), but as of early 2019, its retail vacancy rate had decreased to 1.3% (Radest 2019). On the surface, Summit is resurgent and thriving.
+My hometown, Summit, is located in Union County, New Jersey. It has a reputation of being a fairly well-off town with strong links to Wall Street, as 20% of its residents  work in finance and real estate (Patterson 2008). Its train station is a part of NJ Transit's Midtown Direct service, which operates express trains to Penn Station (Carter 2018). The Regional Plan Association found in 2010 that this service boosted property values in Summit by $23,000 for houses within walking distance of the train station (Carter 2018). Summit has a top-25 public school system in the state and is located close to many secular/religious private schools (U.S. News 2018). Summit's downtown suffered a downtown in the recession (Patterson 2008), but as of early 2019, its retail vacancy rate had decreased to 1.3% (Radest 2019). On the surface, Summit is resurgent and thriving.
 ```{r question 1, echo=FALSE}
 
 # Start by looking up the city where you grew up on the Opportunity Atlas. Zoom in to the
@@ -108,6 +108,10 @@ summit_ranks <- county %>%
 
 In many outcomes, Summit is ahead of the rest of Union County. Of the 108 Census tracts within the county, Summit's tracts rank 2nd, 31st, 45th, and 53rd in the pooled household incomes of low-income children (`kfr_pooled_p25`). When displayed cartographically, Summit's outcomes for low-income children appear better than those of many other towns in the county (which are located to the southeast of Summit).
 
+-----
+Figure 1: Household Income among Low-Income Children in North Jersey
+------
+
 ```{r figure 1, echo=FALSE, fig.align="center"}
 
 # This if statement allows me to rasterize the image and display it
@@ -118,11 +122,12 @@ plot.new()
 rasterImage(q1graph2, 0,0,1,1)
 }
 ```
------
-Figure 1: Household Income among Low-Income Children in North Jersey
-------
 
 When looked at through another metric, such as incarceration rates among low-income children, Summit still appears ahead of the pack. Within Union County, Municipalities like Cranford and Elizabeth have considerably worse outcomes than Summit. Stretching outward, the area around Newark, while located outside Union County, has strikingly worse outcomes in both household income and incarceration rates for low-income children.
+
+-----
+Figure 2: Incarceration Rates among Low-Income Children in North Jersey
+------
 
 ```{r figure 2, echo=FALSE, fig.align="center"}
 
@@ -135,9 +140,6 @@ rasterImage(q1graph4, 0,0,1,1)
 }
 ```
 
------
-Figure 2: Incarceration Rates among Low-Income Children in North Jersey
-------
 ```{r question 2, echo=FALSE}
 # What period do the data
 # you are analyzing come from? Are you concerned that the neighborhoods you are
@@ -158,9 +160,9 @@ q3.1 <- mean(oppatlas$kfr_pooled_p25)
 q3.1 <- round(q3.1, digits=0)
 q3.2 <- mean(state$kfr_pooled_p25)
 q3.2 <- round(q3.2, digits=0)
-q3.3 <- mean(tract$kfr_pooled_p25)
+q3.3 <- mean(county$kfr_pooled_p25)
 q3.3 <- round(q3.3, digits=0)
-q3.4 <- mean(county$kfr_pooled_p25)
+q3.4 <- mean(tract$kfr_pooled_p25)
 q3.4 <- round(q3.4, digits=0)
 ```
 
@@ -174,10 +176,9 @@ q4.2 <- sd(state$kfr_pooled_p25)
 q4.2 <- round(q4.2, digits=0)
 q4.3 <- sd(county$kfr_pooled_p25)
 q4.3 <- round(q4.3, digits=0)
+q4.4 <- sd(town$kfr_pooled_p25)
+q4.4 <- round(q4.4, digits=0)
 ```
------
-Table 1: Outcomes for Low-Income Children (Questions 3 and 4)
------
 
 ```{r question 5, echo=FALSE}
 # Now let’s turn to downward mobility: repeat questions (3) and (4) looking at children
@@ -186,33 +187,54 @@ q5.1 <- mean(oppatlas$kfr_pooled_p75)
 q5.1 <- round(q5.1, digits=0)
 q5.2 <- mean(state$kfr_pooled_p75)
 q5.2 <- round(q5.2, digits=0)
-q5.3 <- mean(tract$kfr_pooled_p75)
+q5.3 <- mean(county$kfr_pooled_p75)
 q5.3 <- round(q5.3, digits=0)
-
-q5.4 <- sd(oppatlas$kfr_pooled_p75)
+q5.4 <- mean(tract$kfr_pooled_p75)
 q5.4 <- round(q5.4, digits=0)
-q5.5 <- sd(state$kfr_pooled_p75)
+
+q5.5 <- sd(oppatlas$kfr_pooled_p75)
 q5.5 <- round(q5.5, digits=0)
-q5.6 <- sd(county$kfr_pooled_p75)
+q5.6 <- sd(state$kfr_pooled_p75)
 q5.6 <- round(q5.6, digits=0)
-
-q5.7 <- mean(oppatlas$kfr_pooled_p100)
+q5.7 <- sd(county$kfr_pooled_p75)
 q5.7 <- round(q5.7, digits=0)
-q5.8 <- mean(state$kfr_pooled_p100)
+q5.8 <- sd(town$kfr_pooled_p75)
 q5.8 <- round(q5.8, digits=0)
-q5.9 <- mean(tract$kfr_pooled_p100)
-q5.9 <- round(q5.9, digits=0)
 
-q5.10 <- sd(oppatlas$kfr_pooled_p100)
+q5.9 <- mean(oppatlas$kfr_pooled_p100)
+q5.9 <- round(q5.9, digits=0)
+q5.10 <- mean(state$kfr_pooled_p100)
 q5.10 <- round(q5.10, digits=0)
-q5.11 <- sd(state$kfr_pooled_p100)
+q5.11 <- mean(county$kfr_pooled_p100)
 q5.11 <- round(q5.11, digits=0)
-q5.12 <- sd(county$kfr_pooled_p100)
+q5.12 <- mean(tract$kfr_pooled_p100)
 q5.12 <- round(q5.12, digits=0)
+
+q5.13 <- sd(oppatlas$kfr_pooled_p100)
+q5.13 <- round(q5.13, digits=0)
+q5.14 <- sd(state$kfr_pooled_p100)
+q5.14 <- round(q5.14, digits=0)
+q5.15 <- sd(county$kfr_pooled_p100)
+q5.15 <- round(q5.15, digits=0)
+q5.16 <- sd(town$kfr_pooled_p100)
+q5.16 <- round(q5.16, digits=0)
 ```
+
+Using the Opportunity Atlas, the average household income for children in the 25th, 75th, and 100th percentiles can be calculated using `kfr_pooled_p25`, `kfr_pooled_p75`, `kfr_pooled_p100`. These means, along with their standard deviations in parentheses, are displayed for my home tract, Union County, New Jersey, and the entire nation in Table 1. Since a single tract cannot have a standard deviation, I calculated the standard deviation of Summit's 4 tracts for the table.
+
+Regardless of a child's percentile at birth, the average household income in my home tract is substantially higher than that of Union County, New Jersey, and the country. Union County itself is relatively average compared to the state totals (for each percentile rank), and New Jersey is slightly better-off than the rest of the country in each rank. The standard deviations in this table are also of interest because they denote mobility. My home tract has above-average mobility for children born in the 25th percentile, but that mobility falls as we look at higher percentiles. When looking at the 100th percentile, there is remarkably low mobility compared to Union County, New Jersey, and the country. This finding implies that children born into very wealthy families in my tract remained wealthy throughout life.
+
 -----
-Table 2: Outcomes for Higher-Income Children (Question 5)
+Table 1: Outcome Matrix with Means and Standard Deviations
 -----
+
+| Percentile  | Tract | County | State | Nation |
+| ----  | -----| ------| ------| ------|
+| 25th  | \$`r q3.4` (\$`r q4.4`) | \$`r q3.3` (\$`r q4.3`) |  \$`r q3.2` (\$`r q4.2`) | \$`r q3.1` (\$`r q4.1`) |
+| 75th  | \$`r q5.4` (\$`r q5.8`) | \$`r q5.3` (\$`r q5.7`) | \$`r q5.2` (\$`r q5.6`) | \$`r q5.1` (\$`r q5.5`) |
+| 100th | \$`r q5.12` (\$`r q5.16`) | \$`r q5.11` (\$`r q5.15`) | \$`r q5.10` (\$`r q5.14`) | \$`r q5.9` (\$`r q5.13`) |
+
+
 ```{r question 6, echo=FALSE}
 # Using a linear regression, estimate the relationship between outcomes of children at the
 # 25th and 75th percentile for the Census tracts in your home county. Generate a scatter
@@ -328,7 +350,7 @@ model_3_CI_lb <- covariate_model_3$coefficients - tval3 * se3
 cbind(model_3_CI_lb, model_3_CI_ub)
 ```
 -----
-Table 3: Covariates
+Table 2: Covariates
 -----
 
 ```{r question 9, echo=FALSE}
