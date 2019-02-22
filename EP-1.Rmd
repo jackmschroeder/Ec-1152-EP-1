@@ -66,7 +66,7 @@ tract <- county %>%
 options(scipen=999)
 
 ```
-My hometown, Summit, is located in Union County, New Jersey. It has a reputation of being a fairly well-off town with strong links to Wall Street, as 20% of its residents  work in finance and real estate (Patterson 2008). Its train station is a part of NJ Transit's Midtown Direct service, which operates express trains to Penn Station (Carter 2018). The Regional Plan Association found in 2010 that this service boosted property values in Summit by $23,000 for houses within walking distance of the train station (Carter 2018). Summit has a top-25 public school system in the state and is located close to many secular/religious private schools (U.S. News 2018). Summit's downtown suffered a downtown in the recession (Patterson 2008), but as of early 2019, its retail vacancy rate had decreased to 1.3% (Radest 2019). On the surface, Summit is resurgent and thriving.
+My hometown, Summit, is located in Union County, New Jersey. It has a reputation of being a fairly well-off town with strong links to Wall Street, as 20% of its residents work in finance and real estate (Patterson 2008). Its train station is a part of NJ Transit's Midtown Direct service, which operates express trains to Penn Station (Carter 2018). The Regional Plan Association found in 2010 that this service boosted property values in Summit by $23,000 for houses within walking distance of the train station (Carter 2018). Summit has a top-25 public school system in the state and is located close to many secular/religious private schools (U.S. News 2018). Summit's downtown suffered a downturn in the recession (Patterson 2008), but as of early 2019, its retail vacancy rate had decreased to 1.3% (Radest 2019). On the surface, Summit is resurgent and thriving.
 ```{r question 1, echo=FALSE}
 
 # The outcomes I analyzed were household income and incarceration ranks.
@@ -83,7 +83,7 @@ q1graph3 <- readPNG("Files/opp-incarc-all.png")
 q1graph4 <- readPNG("Files/opp-incarc-low.png")
 ```
 
-In many outcomes, Summit is ahead of the rest of Union County. Of the 108 Census tracts within the county, Summit's tracts rank 2nd, 31st, 45th, and 53rd in the pooled household incomes of low-income children (`kfr_pooled_p25`). When displayed cartographically, Summit's outcomes for low-income children appear better than those of many other towns in the county. My home tract is highlighted in black, while the rest of Union County is southeast of that tract.
+In many outcomes, Summit is ahead of the rest of Union County. Of the 108 Census tracts within the county, Summit's tracts rank 2nd, 31st, 45th, and 53rd in the pooled household incomes of low-income children (`kfr_pooled_p25`). When displayed cartographically, Summit's outcomes for low-income children appear marginally better than those of many other towns in the county. My home tract is highlighted in black, while the rest of Union County is southeast of that tract.
 
 -----
 Figure 1: Household Income among Low-Income Children in North Jersey
@@ -100,7 +100,7 @@ rasterImage(q1graph2, 0,0,1,1)
 }
 ```
 
-When looked at through another metric, such as incarceration rates among low-income children, Summit still appears ahead of the pack. Within Union County, Municipalities like Cranford and Elizabeth have considerably worse outcomes than Summit. Stretching outward, the area around Newark, while located outside Union County, has strikingly worse outcomes in both household income and incarceration rates for low-income children.
+When looked at through another metric, such as incarceration rates among low-income children, Summit still appears ahead of the pack. Within Union County, municipalities like Cranford and Elizabeth have considerably worse outcomes than Summit. Stretching outward, the area around Newark, while located outside Union County, has strikingly worse outcomes in both household income and incarceration rates for low-income children.
 
 -----
 Figure 2: Incarceration Rates among Low-Income Children in North Jersey
@@ -117,11 +117,6 @@ rasterImage(q1graph4, 0,0,1,1)
 ```
 
 ```{r question 2, echo=FALSE}
-# What period do the data
-# you are analyzing come from? Are you concerned that the neighborhoods you are
-# studying may have changed for kids now growing up there? What evidence do Chetty et
-# al. (2018) provide suggesting that such changes are or are not important? What type of
-# data could you use to test whether your neighborhood has changed in recent years?
 
 # SDMTools provides the necessary functions to find population-weighted averages.
 
@@ -146,14 +141,9 @@ unweightedmean2 <- mean(town$poor_share2000)
 unweightedmean3 <- mean(town$poor_share2010)
 ```
 
-Chetty et al. (2018)'s Opportunity Atlas data looks at children born between 1978 and 1983 and provides insights on their outcomes through adulthood. Using this data to look at Summit's outcomes may be misleading, since Summit itself has changed since the 1980s. After a population boom in the 1950s, the population began to precipitously decline in the 1970s. This decline continued until the late 1990s, but the city's population has yet to reach its high of 23,677 in 1960 (Census Data). Many in Summit believe that the city's population recovery was accompanied by fundamental changes in the town's identity, completing a transition into an upper-class Wall Street exclave in Union County. <ARE THESE CHANGES IMPORTANT> There are a few covariates that the Opportunity Atlas tracks that could help determine how much Summit has changed. For instance, the shares of each race are kept from both the 2000 and 2010 Census. The poverty rates from 1990, 2000, and 2010 are also in the Atlas' databases. From this data, we can see that Summit's poverty rate increased from 2% in 1990 to 4% in 2000, and then to 6% in 2010.
+Chetty et al. (2018)'s Opportunity Atlas data looks at children born between 1978 and 1983 and provides insights on their outcomes through adulthood. Using this data to look at Summit's outcomes may be misleading since Summit itself has changed since the 1980s. After a population boom in the 1950s, the city's population began to precipitously decline in the 1970s. This decline continued until the late 1990s, but the city's population has yet to reach its height of 23,677 in 1960 (*WPR* 2019). Many in Summit believe that the city's population recovery was accompanied by fundamental changes in the town's identity, completing a transition from a typical small town into an upper-class Wall Street exclave in Union County. These changes are accounted for in the model. In order to accurately reflect each tract, Chetty et al. (2018) find each successive decade's effects should be discounted by 10%. There are a few covariates that the Opportunity Atlas tracks that could help determine how much Summit has changed. For instance, the shares of each race are kept from both the 2000 and 2010 Census. The poverty rates from 1990, 2000, and 2010 are also in the Atlas' databases. From this data, we can see that Summit's poverty rate increased from 2% in 1990 to 4% in 2000, and then to 6% in 2010. While Summit may have become wealthier on the top, it has also become more divided.
 
 ```{r question 3, echo=FALSE}
-# Now turn to the atlas.dta data set. How does average upward mobility, pooling races and
-# genders, for children with parents at the 25th percentile (kfr pooled_p25) in your
-# home Census tract compare to mean (population-weighted, using count_pooled)
-# upward mobility in your state and in the U.S. overall? Do kids where you grew up have
-# better or worse chances of climbing the income ladder than the average child in America?
 
 # I find weighted means for the nation, state, county, and home tract using wt.mean.
 # I then round the results to help construct the table below.
@@ -248,10 +238,6 @@ Table 1: Outcome Matrix with Means and Standard Deviations
 
 
 ```{r question 6, echo=FALSE}
-# Using a linear regression, estimate the relationship between outcomes of children at the
-# 25th and 75th percentile for the Census tracts in your home county. Generate a scatter
-# plot to visualize this regression. Do areas where children from low-income families do
-# well generally have better outcomes for those from high-income families, too?
 
 # This code runs a linear regression on child outcomes from the 25th and 75th percentiles.
 # The data looks at Union County.
@@ -276,6 +262,7 @@ q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
 
 ```
 
+In order to judge the difference in outcomes between children born in the 25th and 75th percentiles in Union County, I regressed the two variables with the equation: `kfr_pooled_p25 ~ kfr_pooled_p75`. This was nested within a call for `lm()` using data for Union County. The result was a line: `kfr_pooled_p25 = 958.619 + 0.688 * kfr_pooled_p75`. The interpretation is that for each \$1 in household income a Union County child born in the 75th percentile earns later in life, a child born in the 25th percentile earns \$0.68 (on top of an intercept of \$958.61). The positive nature of this relationship suggests that areas with good outcomes for wealthier children also have good outcomes for poorer children. This is to be expected. I graphed this relationship in a scatter plot (Figure 3), using percentile ranks instead of raw dollar amounts for simplicity. The plot confirms that children born in the 25th percentile do better in tracts where children born in the 75th percentile achieve similar outcomes to their parents.
 
 ```{r figure 3, echo=FALSE, warning=FALSE}
 
@@ -284,11 +271,9 @@ q6graph <- ggplot(county, aes(ranks_pooled_p75*100, ranks_pooled_p25*100)) +
 q6graph
 ```
 
+This data can also be graphed according to race. Figure 4 displays the same relationship as the previous graph, along with new lines of best fit for each race. It becomes clear that there are large racial disparities in outcomes. Black children born in the 75th percentile tend to experience more downward mobility than other races, and as a whole, mobility for black children born in the 25th percentile is low. Hispanic children, for their part, experience above-average mobility in low-opportunity tracts (which I define as Census tracts with low mobility for children born in the 25th percentile), but that effect wears off in tracts with higher average mobility (as seen in the blue line). In addition, white children born in the 75th percentile experience near-average downward mobility, but more upward mobility for children born in the 25th percentile. Finally, the graph indicates that Asian children born in the 25th percentile experience massive mobility, and those born in the 75th percentile are also better off than average.
 
 ```{r question 7, echo=FALSE, warning=FALSE}
-# Next, examine whether the patterns you have looked at above are similar by race. If there
-# is not enough racial heterogeneity in the area of interest (i.e., data is missing for most
-# racial groups), then choose a different area to examine.
 
 # To show whether the patterns are similar by race, I use the original graph and add
 # geom_smooths by each race. I retitle the graph as Figure 4 and add a caption to 
@@ -317,83 +302,63 @@ q7graph
 
  
 ```{r question 8, echo=FALSE, include=FALSE}
-# Using the Census tracts in your home county, can you identify any covariates which help
-# explain some of the patterns you have identified above? Some examples of covariates
-# you might examine include housing prices, income inequality, fraction of children with
-# single parents, job density, etc. For 2 or 3 of these, report estimated correlation
-# coefficients along with their 95% confidence intervals.
 
-# install prerequisite packages
-#install.packages(c("sandwich", "foreign", "lmtest","devtools"))
-#devtools::install_github("jjchern/sysuse")
+# My TF provided me with R code that would find the 95% confidence
+# intervals for the correlation coefficients. This code requires the following
+# libraries.
 
-# library for robust (white) standard errors
 library(foreign)
 library(sandwich)
 library(lmtest)
 
-# run ols
+# I use the same method three times (for each of the covariates). I run a regression
+# the covariate (foreign share) against the pooled ranks of children born in the 25th
+# percentile. The summary of that regression gives me the coefficient. From there,
+# the standard errors, alpha values, and t-values are found to construct the 
+# proper confidence intervals. Then the intervals are bound together and displayed.
+# I created my own table below, so there was no need for any of this code (or its
+# output) to be displayed in the paper.
+
 covariate_model_1 <- lm(ranks_pooled_p25 ~ foreign_share2010, data= county)
 summary(covariate_model_1)
 
-# grab white (robust) ses from vcv matrix
-se1 <- sqrt(diag(vcovHC(covariate_model_1, "HC1")))
 
-# construct CIs white (robust) ses
+se1 <- sqrt(diag(vcovHC(covariate_model_1, "HC1")))
 alpha <- 0.05
 tval1 <- qt(p=1-alpha/2, df=covariate_model_1$df.residual)
 model_1_CI_ub <- covariate_model_1$coefficients + tval1 * se1
 model_1_CI_lb <- covariate_model_1$coefficients - tval1 * se1
-
-# display CIs for white (robust) ses
 cbind(model_1_CI_lb, model_1_CI_ub)
 
-cor(county$singleparent_share2000, county$ranks_pooled_p25)
 
-# run ols
+# I run the same method for single parent share in 2000.
+
 covariate_model_2 <- lm(ranks_pooled_p25 ~ singleparent_share2000, data= county)
 summary(covariate_model_2)
 
-# grab white (robust) ses from vcv matrix
-se2 <- sqrt(diag(vcovHC(covariate_model_2, "HC1")))
 
-# construct CIs white (robust) ses
+se2 <- sqrt(diag(vcovHC(covariate_model_2, "HC1")))
 alpha <- 0.05
 tval2 <- qt(p=1-alpha/2, df=covariate_model_2$df.residual)
 model_2_CI_ub <- covariate_model_2$coefficients + tval2 * se2
 model_2_CI_lb <- covariate_model_2$coefficients - tval2 * se2
-
-# display CIs for white (robust) ses
 cbind(model_2_CI_lb, model_2_CI_ub)
 
-# run ols
+# Finally, the same method for single parent share in 2010.
+
 covariate_model_3 <- lm(ranks_pooled_p25 ~ singleparent_share2010, data= county)
 summary(covariate_model_3)
 
-# grab white (robust) ses from vcv matrix
 se3 <- sqrt(diag(vcovHC(covariate_model_3, "HC1")))
-
-# construct CIs white (robust) ses
 alpha <- 0.05
 tval3 <- qt(p=1-alpha/2, df=covariate_model_3$df.residual)
 model_3_CI_ub <- covariate_model_3$coefficients + tval3 * se3
 model_3_CI_lb <- covariate_model_3$coefficients - tval3 * se3
-
-# display CIs for white (robust) ses
 cbind(model_3_CI_lb, model_3_CI_ub)
 
 ```
 
-```{r question 9, echo=FALSE}
-# Open question: formulate a hypothesis for why you see the variation in upward mobility
-# for children who grew up in the Census tracts near your home and provide correlational
-# evidence testing that hypothesis.
-# For this question, many covariates have been provided to you in the atlas.dta file, which
-# are described under the “Characteristics of Census tracts” header in Table 1.
-# You are welcome to use outside data that are not included in atlas.dta, but this is not
-# required. Diane Sredl has created a research guide for our class that contains links to
-# other data sources. You may wish to read this tutorial on how to add variables to a data
-# set in Stata.
+```{r question 9, echo=FALSE, include=FALSE}
 
 # This code allowed me to figure out the average tract's foreign-born
 # population share across the country. The following code chunk did
@@ -406,6 +371,22 @@ nationforeign <- round(nationforeign, digits=2)
 
 unionforeign <- wt.mean(county$foreign_share2010, county$count_pooled)
 unionforeign <- round(unionforeign, digits=2)
+
+# The code below analyzes the foreign-share relationship with children from the 75th and
+# 100th percentiles.
+
+foreignp75 <- lm(ranks_pooled_p75 ~ foreign_share2010, data= county)
+summary(foreignp75)
+foreignp100 <- lm(ranks_pooled_p100 ~ foreign_share2010, data= county)
+summary(foreignp100)
+
+# The code below analyzes the single-parent 2000 relationship with children from the 75th
+# and 100th percentiles.
+
+singleparent2000p75 <- lm(ranks_pooled_p75 ~ singleparent_share2000, data= county)
+summary(singleparent2000p75)
+singleparent2000p100 <- lm(ranks_pooled_p100 ~ singleparent_share2000, data= county)
+summary(singleparent2000p100)
 ```
 
 Table 2 presents three covariates of ranked income among children born into the 25th percentile. I chose three covariates to analyze: `foreign_share2010`, `singleparent_share2000`, and `singleparent_share2010`.
@@ -420,21 +401,36 @@ Table 2: 95% Confidence Intervals for Correlation Coefficients of Covariates
 | Share of Single-Headed Households with Children in 2000 | -0.485 | *-0.419* | -0.354 |
 | Share of Single-Headed Households with Children in 2010 | -0.303 | *-0.247* | -0.192 |
 
-First, I calculated the correlation between the foreign-born population share in each Union County tract and percentile rank of children born into the 25th percentile (the coefficient from `ranks_pooled_p25 ~ foreign_share2010`). There is a significant negative coefficient of -0.224 (95% confidence intervals are detailed in Table 2). Union County has a substantially higher foreign-born population share than the average Census tract (`r unionforeign` versus `r nationforeign` nationwide). The negative correlation suggests that poorer immigrants in Union County do not see much mobility. Indeed, when looking at percentile ranks, it appears that their children are in many cases worse-off than their parents.
+First, I calculated the correlation between the foreign-born population share in each Union County tract and percentile rank of children born into the 25th percentile (the coefficient from `ranks_pooled_p25 ~ foreign_share2010`). There is a significant negative coefficient of -0.224 (95% confidence intervals are detailed in Table 2). Union County has a substantially higher foreign-born population share than the average Census tract (`r unionforeign` versus `r nationforeign` nationwide). The negative correlation suggests that poorer immigrants in Union County do not see much mobility. Indeed, when looking at percentile ranks, it appears that their children are in many cases worse-off than their parents. This negative relationship holds true regardless of the child's original percentile (i.e. when comparing with `ranks_pooled_p75` and `ranks_pooled_100`).
 
-Second, I looked at the share of single-headed households with children in 2000 (the coefficient from `ranks_pooled_p25 ~ singleparent_share2000`). This significant negative relationship has a correlation coefficient of -0.419.
+Second, I looked at the share of single-headed households with children in 2000 (the coefficient from `ranks_pooled_p25 ~ singleparent_share2000`). This significant negative relationship has a correlation coefficient of -0.419. When looking at children from the 75th and 100th percentiles, the negative relationship not only holds but slightly increases. This implies that children born into more opportunity are more likely to experience downward mobility due to being from a single-parent household.
 
-Third, I looked at the share of single-headed households with children in 2010 (the coefficient from `ranks_pooled_p25 ~ singleparent_share2010`). The relationship here is also signficant and negative, with a coefficient of -0.247, but the impact is smaller than from 2000. This makes sense logically: the children whose outcomes are being analyzed were born around 1980, so the share of single parents in 2010 should not have as much of an effect on outcomes as the share in 2000.
+My hypothesis is that this effect will be discounted over time. To demonstrate this, I then looked at the share of single-headed households with children in 2010 (the coefficient from `ranks_pooled_p25 ~ singleparent_share2010`). The relationship here is also significant and negative, with a coefficient of -0.247, but the impact is smaller than from 2000. This makes sense logically: the children whose outcomes are being analyzed were born around 1980, so the share of single parents in 2010 should not have as much of an effect on outcomes as the share in 2000. This discounting is greater than the 10% change Prof. Chetty discussed in lecture, so this could also be a signal that the negative effect of single-parent households has decreased over time. While this analysis focuses on children born around 1980, it would be interesting to explore this topic further.
 
+The strongest of these predictors is the share of single-parent households in 2000. The share of foreign-born population and the share of single-parent households in 2010 both had weaker correlation coefficients, but still provide insights on mobility in Union County. For children coming from a household in either of these subsets (or both of them), their odds of earning more than their parents is lower. An important caveat for this analysis is that correlation does not imply causation. It cannot be said with certainty that decreasing the share of single-parent households in Union County will improve outcomes later on in life. However, randomized experimentation that produces similar results would be causal.
 
+To conclude, Summit is home to a large amount of social mobility. The major takeaway from this analysis is that children born in the 25th percentile in Summit vastly outperform their peers in the county, state, and across the nation. While these effects are not as large for children born in the 75th and 100th percentiles, they suggest that Summit provided opportunities in the 1980s and 1990s that aided these children later on in life. Even as the poverty rate in Summit increased in the post-1990 era, this analysis provides hope. That this mobility coincided with what many view as a shift in the city's identity suggests that even as Summit has grown to be regarded as upper-class, its poor can still find success.
 
-```{r question 10, echo=FALSE}
-# Putting together all the analyses you did above, what have you learned about the
-# determinants of economic opportunity where you grew up? Identify one or two key
-# lessons or takeaways that you might discuss with a policymaker or journalist if asked
-# about your hometown. Mention any important caveats to your conclusions; for example,
-# can we conclude that the variable you identified as a key predictor in the question above
-# has a causal effect (i.e., changing it would change upward mobility) based on that
-# analysis? Why or why not?
-```
+\newpage
 
+\begin{center}
+Works Cited
+\end{center}
+
+Carter, V. (2018, November 20). 5 things to know about the NJ Transit Midtown Direct train line. *Village*  
+
+  \        *Green*. Retrieved from villagegreennj.com.  
+
+Chetty, R., et al (2018). Race and economic opportunity in the United States: An intergenerational  
+
+  \         perspective. *National Bureau of Economic Research*. Retrieved from nber.org.  
+
+Patterson, M.J. (2008, October 31). For affluent town, clouds of uncertainty. *The New York Times*.  
+
+  \         Retrieved from nytimes.com.  
+
+Radest, N. (2019, January 4). State of the city. *City of Summit*. Retrieved from cityofsummit.org.  
+
+*WPR*. (2019). Summit, New Jersey population statistics. Retrieved from worldpopulationreview.com.
+
+*U.S. News*. (2019). Summit Senior High School. Retrieved from usnews.com.
