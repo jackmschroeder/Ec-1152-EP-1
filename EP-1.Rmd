@@ -23,6 +23,10 @@ Empirical Project 1
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+# This code starts a log file of my output.
+
+sink(file = "EP-1-Log.txt", split=FALSE)
+
 # The main library I work with is the tidyverse.
 # There are some other libraries I use (specifically when looking at covariates),
 # but those libraries are called when they are used.
@@ -227,7 +231,7 @@ Using the Opportunity Atlas, the average household income for children in the 25
 Regardless of a child's percentile at birth, the average household income in my home tract is substantially higher than that of Union County, New Jersey, and the country. Union County itself is relatively average compared to the state totals (for each percentile rank), and New Jersey is slightly better-off than the rest of the country in each rank. The standard deviations in this table are also of interest because they denote mobility. My home tract has above-average mobility for children born in the 25th percentile, but that mobility falls as we look at higher percentiles. When looking at the 100th percentile, there is remarkably low mobility compared to Union County, New Jersey, and the country. This finding implies that children born into very wealthy families in my tract remained wealthy throughout life.
 
 -----
-Table 1: Outcome Matrix with Means and Standard Deviations
+Table 1: Mean and Standard Deviations of Household Income by Percentile and Subset
 -----
 
 | Percentile  | Tract | County | State | Nation |
@@ -434,3 +438,11 @@ Radest, N. (2019, January 4). State of the city. *City of Summit*. Retrieved fro
 *WPR*. (2019). Summit, New Jersey population statistics. Retrieved from worldpopulationreview.com.
 
 *U.S. News*. (2019). Summit Senior High School. Retrieved from usnews.com.
+
+```{r log, echo=FALSE, include=FALSE}
+
+# This line closes and saves the sink (for log file).
+
+sink()
+```
+

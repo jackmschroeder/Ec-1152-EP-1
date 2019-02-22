@@ -1,0 +1,170 @@
+
+Call:
+lm(formula = ranks_pooled_p25 ~ foreign_share2010, data = county)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.17405 -0.05460  0.01655  0.05048  0.13501 
+
+Coefficients:
+                  Estimate Std. Error t value
+(Intercept)        0.53000    0.01535  34.523
+foreign_share2010 -0.22400    0.04695  -4.771
+                              Pr(>|t|)    
+(Intercept)       < 0.0000000000000002 ***
+foreign_share2010            0.0000059 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.07164 on 106 degrees of freedom
+Multiple R-squared:  0.1768,	Adjusted R-squared:  0.169 
+F-statistic: 22.76 on 1 and 106 DF,  p-value: 0.000005898
+
+                  model_1_CI_lb model_1_CI_ub
+(Intercept)           0.4984302     0.5615708
+foreign_share2010    -0.3048431    -0.1431509
+
+Call:
+lm(formula = ranks_pooled_p25 ~ singleparent_share2000, data = county)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.238596 -0.022519 -0.000005  0.024356  0.095614 
+
+Coefficients:
+                        Estimate Std. Error t value
+(Intercept)             0.576756   0.008893   64.85
+singleparent_share2000 -0.419668   0.028917  -14.51
+                                  Pr(>|t|)    
+(Intercept)            <0.0000000000000002 ***
+singleparent_share2000 <0.0000000000000002 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.04568 on 106 degrees of freedom
+Multiple R-squared:  0.6652,	Adjusted R-squared:  0.6621 
+F-statistic: 210.6 on 1 and 106 DF,  p-value: < 0.00000000000000022
+
+                       model_2_CI_lb model_2_CI_ub
+(Intercept)                0.5534040     0.6001079
+singleparent_share2000    -0.4852179    -0.3541187
+
+Call:
+lm(formula = ranks_pooled_p25 ~ singleparent_share2010, data = county)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.209079 -0.037521  0.003378  0.034306  0.118390 
+
+Coefficients:
+                       Estimate Std. Error t value
+(Intercept)             0.54816    0.01074  51.029
+singleparent_share2010 -0.24729    0.02698  -9.166
+                                   Pr(>|t|)    
+(Intercept)            < 0.0000000000000002 ***
+singleparent_share2010  0.00000000000000423 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.05897 on 106 degrees of freedom
+Multiple R-squared:  0.4421,	Adjusted R-squared:  0.4369 
+F-statistic: 84.01 on 1 and 106 DF,  p-value: 0.000000000000004227
+
+                       model_3_CI_lb model_3_CI_ub
+(Intercept)                0.5247950     0.5715318
+singleparent_share2010    -0.3029221    -0.1916604
+
+Call:
+lm(formula = ranks_pooled_p75 ~ foreign_share2010, data = county)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.20517 -0.04797  0.02067  0.05530  0.14897 
+
+Coefficients:
+                  Estimate Std. Error t value
+(Intercept)        0.65128    0.01629  39.984
+foreign_share2010 -0.22562    0.04982  -4.529
+                              Pr(>|t|)    
+(Intercept)       < 0.0000000000000002 ***
+foreign_share2010            0.0000156 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.07601 on 106 degrees of freedom
+Multiple R-squared:  0.1621,	Adjusted R-squared:  0.1542 
+F-statistic: 20.51 on 1 and 106 DF,  p-value: 0.0000156
+
+
+Call:
+lm(formula = ranks_pooled_p100 ~ foreign_share2010, data = county)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.26859 -0.04702  0.02607  0.05788  0.22604 
+
+Coefficients:
+                  Estimate Std. Error t value
+(Intercept)        0.74664    0.02033  36.719
+foreign_share2010 -0.22689    0.06219  -3.648
+                              Pr(>|t|)    
+(Intercept)       < 0.0000000000000002 ***
+foreign_share2010             0.000411 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.09489 on 106 degrees of freedom
+Multiple R-squared:  0.1116,	Adjusted R-squared:  0.1032 
+F-statistic: 13.31 on 1 and 106 DF,  p-value: 0.0004114
+
+
+Call:
+lm(formula = ranks_pooled_p75 ~ singleparent_share2000, data = county)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.134577 -0.022196  0.001486  0.031013  0.148994 
+
+Coefficients:
+                        Estimate Std. Error t value
+(Intercept)             0.703686   0.009302   75.65
+singleparent_share2000 -0.442569   0.030246  -14.63
+                                  Pr(>|t|)    
+(Intercept)            <0.0000000000000002 ***
+singleparent_share2000 <0.0000000000000002 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.04778 on 106 degrees of freedom
+Multiple R-squared:  0.6689,	Adjusted R-squared:  0.6657 
+F-statistic: 214.1 on 1 and 106 DF,  p-value: < 0.00000000000000022
+
+
+Call:
+lm(formula = ranks_pooled_p100 ~ singleparent_share2000, data = county)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.195497 -0.038781  0.003041  0.032963  0.207785 
+
+Coefficients:
+                       Estimate Std. Error t value
+(Intercept)             0.80349    0.01395   57.58
+singleparent_share2000 -0.46058    0.04537  -10.15
+                                  Pr(>|t|)    
+(Intercept)            <0.0000000000000002 ***
+singleparent_share2000 <0.0000000000000002 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.07169 on 106 degrees of freedom
+Multiple R-squared:  0.4929,	Adjusted R-squared:  0.4881 
+F-statistic:   103 on 1 and 106 DF,  p-value: < 0.00000000000000022
+
